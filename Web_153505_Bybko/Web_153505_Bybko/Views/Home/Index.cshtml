@@ -1,0 +1,72 @@
+﻿@{
+    ViewBag.Title = "Home"; 
+}
+
+<h2>@ViewData["LabTitle"]</h2>
+
+<div class="container">
+    <h3>List</h3>
+    <ol type="A">
+        @for (int i = 1; i <= 3; i++)
+        {
+            <li>list's element @i</li>
+        }
+    </ol>  
+</div>
+
+<hr class="dropdown-divider">
+
+<div class="container">
+    <h3>Form</h3>
+    <form method="POST" id="inputForm" class="form-inline" asp-controller="Home">
+        <select asp-items="@Model.SelectList" class="form-control mb-3" name="selectedItem">
+            <option>Select...</option>
+        </select>
+        <div class="mb-3">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="checkbox1" name="checkbox1">
+                <label class="form-check-label" for="checkbox1">Checkbox 1</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="checkbox2" name="checkbox2">
+                <label class="form-check-label" for="checkbox2">Checkbox 2</label>
+            </div>
+        </div>
+
+        <div class="row row-cols-lg-auto g-3 mb-3">
+            <div class="col">
+                <input class="form-check-input" type="radio" id="radio1" name="radio1">
+                <label class="form-check-label" for="radio1">Radio 1</label>
+            </div>
+            <div class="col">
+                <input class="form-check-input" type="radio" id="radio2" name="radio2">
+                <label class="form-check-label" for="radio2">Radio 2</label>
+            </div>
+            <div class="col">
+                <input class="form-check-input" type="radio" id="radio3" name="radio3">
+                <label class="form-check-label" for="radio3">Radio 3</label>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label for="inputUsername" class="col-sm-2 col-form-label">Username:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputUsername" name="username"
+                       placeholder="Enter username">
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="inputPassword" class="col-sm-2 col-form-label">Password:</label>
+            <div class="col-sm-10">
+                <input type="password" class="form-control" id="inputPassword" name="password"
+                       placeholder="Enter password">
+            </div>
+        </div>
+
+        <button type="submit" class="nav-link btn-link text-dark mb-3"
+                style="background-color: transparent; border-color: transparent;">
+            Send
+        </button>
+    </form>
+</div>
+
