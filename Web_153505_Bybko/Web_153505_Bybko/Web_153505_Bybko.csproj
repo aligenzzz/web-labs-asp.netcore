@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\Images\" />
+    <ProjectReference Include="..\Web_153505_Bybko.Domain\Web_153505_Bybko.Domain.csproj" />
   </ItemGroup>
 
 </Project>
