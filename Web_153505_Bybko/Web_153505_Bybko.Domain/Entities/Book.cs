@@ -1,4 +1,6 @@
 ﻿
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Web_153505_Bybko.Domain.Entities
 {
     public class Book
