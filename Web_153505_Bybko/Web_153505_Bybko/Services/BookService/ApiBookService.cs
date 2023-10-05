@@ -1,6 +1,4 @@
-﻿using System.Net.Http;
-using System.Runtime.CompilerServices;
-using System.Text;
+﻿using System.Text;
 using System.Text.Json;
 using Web_153505_Bybko.Domain.Entities;
 using Web_153505_Bybko.Domain.Models;
@@ -25,7 +23,7 @@ namespace Web_153505_Bybko.Services.BookService
             _logger = logger;
         }
 
-        public Task<ResponseData<ListModel<Book>>> GetBooksListAsync(string? genreName = "All", int pageNo = 1)
+        public async Task<ResponseData<ListModel<Book>>> GetBooksListAsync(string? genreName = "All", int pageNo = 1)
         {
             var urlString = new StringBuilder($"{_httpClient.BaseAddress!.AbsoluteUri}books/");
 
@@ -38,61 +36,148 @@ namespace Web_153505_Bybko.Services.BookService
             if (!_pageSize.Equals("3"))
                 urlString.Append($"pagesize{_pageSize}");
 
-            var response = _httpClient.GetAsync(new Uri(urlString.ToString())).Result;
+            var response = await _httpClient.GetAsync(new Uri(urlString.ToString()));
             if (response.IsSuccessStatusCode)
             {
                 try
                 {
-                    return response.Content.ReadFromJsonAsync<ResponseData<ListModel<Book>>>(_serializerOptions)!;
+                    return (await response.Content.ReadFromJsonAsync<ResponseData<ListModel<Book>>>(_serializerOptions))!;
                 }
                 catch (JsonException ex)
                 {
                     _logger.LogError($"Error: {ex.Message}");
-                    return Task.FromResult(new ResponseData<ListModel<Book>>
+                    return new ResponseData<ListModel<Book>>
                     {
                         Success = false,
                         ErrorMessage = $"Error: {ex.Message}"
-                    });
+                    };
                 }
             }
 
             _logger.LogError($"Error: { response.StatusCode.ToString() }");
-            return Task.FromResult(new ResponseData<ListModel<Book>> 
+            return new ResponseData<ListModel<Book>> 
             {
                 Success = false,
                 ErrorMessage = $"Error: { response.StatusCode.ToString() }"
-            });
+            };
         }
 
-        public Task<ResponseData<Book>> CreateBookAsync(Book book, IFormFile? formFile)
+        public async Task<ResponseData<Book>> CreateBookAsync(Book book, IFormFile? formFile)
         {
-            var uri = new Uri(_httpClient!.BaseAddress!.AbsoluteUri + "books");
+            var urlString = new StringBuilder($"{_httpClient.BaseAddress!.AbsoluteUri}books");
 
-            var response = _httpClient.PostAsJsonAsync(uri, book, _serializerOptions).Result;
+            var response = await _httpClient.PostAsJsonAsync(new Uri(urlString.ToString()), book);
             if (response.IsSuccessStatusCode)
-                return response.Content.ReadFromJsonAsync<ResponseData<Book>>(_serializerOptions)!;
+            {
+                try
+                {
+                    var book_ = await response.Content.ReadFromJsonAsync<Book>(_serializerOptions);
 
+                    if (formFile != null)
+                        await SaveImageAsync(book_!.Id, formFile);
+
+                    return new ResponseData<Book>
+                    {
+                        Data = book_,
+                        Success = true,
+                        ErrorMessage = ""
+                    };
+                }
+                catch (JsonException ex)
+                {
+                    _logger.LogError($"Error: {ex.Message}");
+                    return new ResponseData<Book>
+                    {
+                        Success = false,
+                        ErrorMessage = $"Error: {ex.Message}"
+                    };
+                }
+            }
+               
             _logger.LogError($"Error: { response.StatusCode.ToString() }");
-            return Task.FromResult(new ResponseData<Book>
+            return new ResponseData<Book>
             {
                 Success = false,
                 ErrorMessage = $"Error: { response.StatusCode.ToString() }"
-            });
+            };
         }
 
-        public Task DeleteBookAsync(int id)
+        public async Task DeleteBookAsync(int id)
         {
-            throw new NotImplementedException();
+            var urlString = new StringBuilder($"{_httpClient.BaseAddress!.AbsoluteUri}books/{id}");
+
+            var response = await _httpClient.DeleteAsync(new Uri(urlString.ToString()));
+
+            _logger.LogError($"Error: {response.StatusCode.ToString()}");
         }
 
-        public Task<ResponseData<Book>> GetBookByIdAsync(int id)
+        public async Task<ResponseData<Book>> GetBookByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var urlString = new StringBuilder($"{_httpClient.BaseAddress!.AbsoluteUri}books/{id}");
+
+            var response = await _httpClient.GetAsync(new Uri(urlString.ToString()));
+            if (response.IsSuccessStatusCode)
+            {
+                try
+                {
+                    return (await response.Content.ReadFromJsonAsync<ResponseData<Book>>(_serializerOptions))!;
+                }
+                catch (JsonException ex)
+                {
+                    _logger.LogError($"Error: {ex.Message}");
+                    return new ResponseData<Book>
+                    {
+                        Success = false,
+                        ErrorMessage = $"Error: {ex.Message}"
+                    };
+                }
+            }
+
+            
+            return new ResponseData<Book>
+            {
+                Success = false,
+                ErrorMessage = $"Error: {response.StatusCode.ToString()}"
+            };
+
         }
 
-        public Task UpdateBookAsync(int id, Book book, IFormFile? formFile)
+        public async Task UpdateBookAsync(int id, Book book, IFormFile? formFile)
         {
-            throw new NotImplementedException();
+            var urlString = new StringBuilder($"{_httpClient.BaseAddress!.AbsoluteUri}books/{id}");
+
+            var response = await _httpClient.PutAsJsonAsync(new Uri(urlString.ToString()), book);
+            if (response.IsSuccessStatusCode)
+            {
+                try
+                {
+                    if (formFile != null)
+                        await SaveImageAsync(id, formFile);
+                }
+                catch (JsonException ex)
+                {
+                    _logger.LogError($"Error: {ex.Message}");
+                }  
+            }            
+        }
+
+        private async Task SaveImageAsync(int id, IFormFile image)
+        {
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Post,
+                RequestUri = new Uri($"{_httpClient.BaseAddress!.AbsoluteUri}books/{id}")
+            };
+
+            var content = new MultipartFormDataContent();
+            var streamContent = new StreamContent(image.OpenReadStream());
+
+            content.Add(streamContent, "formFile", image.FileName);
+            request.Content = content;
+
+            var answer = await _httpClient.SendAsync(request);
+            if (!answer.IsSuccessStatusCode)
+                throw new Exception("Something went wrong while saving image...");
         }
     }
 }

@@ -10,6 +10,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("Default")));
@@ -25,7 +26,7 @@ builder.Services.AddMvc()
 
 var app = builder.Build();
 
-await DbInitializer.SeedData(app);
+// await DbInitializer.SeedData(app);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

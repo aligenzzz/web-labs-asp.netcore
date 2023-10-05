@@ -11,7 +11,7 @@ using Web_153505_Bybko.API.Data;
 namespace Web_153505_Bybko.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230925195337_Initial")]
+    [Migration("20231004161846_Initial")]
     partial class Initial
     {
         /// <inheritdoc />

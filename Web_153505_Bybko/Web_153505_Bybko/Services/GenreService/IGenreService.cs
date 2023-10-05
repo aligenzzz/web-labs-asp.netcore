@@ -1,7 +1,7 @@
 ﻿using Web_153505_Bybko.Domain.Entities;
 using Web_153505_Bybko.Domain.Models;
 
-namespace Web_153505_Bybko.Services.AuthorService
+namespace Web_153505_Bybko.Services.GenreService
 {
     public interface IGenreService
     {

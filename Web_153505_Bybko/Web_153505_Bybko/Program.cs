@@ -1,10 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Web_153505_Bybko.Data;
-using Web_153505_Bybko.Services.AuthorService;
-using Web_153505_Bybko.Services.BookService;
 using Web_153505_Bybko.Services.GenreService;
+using Web_153505_Bybko.Services.BookService;
 
 // creation of application
 var builder = WebApplication.CreateBuilder(args);

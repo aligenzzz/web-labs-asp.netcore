@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Web_153505_Bybko.Domain.Entities;
 using Web_153505_Bybko.Domain.Models;
-using Web_153505_Bybko.Services.AuthorService;
+using Web_153505_Bybko.Services.GenreService;
 
 namespace Web_153505_Bybko.Services.BookService
 {

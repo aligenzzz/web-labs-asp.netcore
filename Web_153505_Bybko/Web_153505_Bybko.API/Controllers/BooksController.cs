@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Web_153505_Bybko.API.Data;
 using Web_153505_Bybko.Domain.Entities;
 using Web_153505_Bybko.API.Services.BookService;
+using Web_153505_Bybko.Domain.Models;
 
 namespace Web_153505_Bybko.API.Controllers
 {
@@ -102,6 +97,18 @@ namespace Web_153505_Bybko.API.Controllers
                 return false;
 
             return true;
+        }
+
+        // POST: api/Books/5
+        [HttpPost("{id}")]
+        public async Task<ActionResult<ResponseData<string>>> PostImage(int id, IFormFile formFile)
+        {
+            var response = await _service.SaveImageAsync(id, formFile);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return NotFound(response);
         }
     }
 }

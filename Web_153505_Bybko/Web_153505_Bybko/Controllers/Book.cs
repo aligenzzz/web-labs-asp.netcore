@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Web_153505_Bybko.Services.AuthorService;
+using Web_153505_Bybko.Services.GenreService;
 using Web_153505_Bybko.Services.BookService;
 
 namespace Web_153505_Bybko.Controllers

@@ -4,6 +4,10 @@
                      ToString()?.
                      ToLower() ?? 
                      String.Empty;
+    var area = ViewContext.RouteData.Values["area"]?
+               .ToString()?
+               .ToLower() ?? 
+               String.Empty;
 }
 
 
@@ -17,7 +21,7 @@
            asp-controller="Book" asp-action="Index">
             Catalogue
         </a>
-        <a class="nav-item nav-link badge @(controller == "admin" ? "active" : "")" 
+        <a class="nav-item nav-link badge @(area == "admin" ? "active" : "")" 
            asp-area="Admin" asp-page="/Index">
             Administration
        </a>

@@ -3,7 +3,7 @@ using System.Text;
 using System.Text.Json;
 using Web_153505_Bybko.Domain.Entities;
 using Web_153505_Bybko.Domain.Models;
-using Web_153505_Bybko.Services.AuthorService;
+using Web_153505_Bybko.Services.GenreService;
 using Web_153505_Bybko.Services.BookService;
 
 namespace Web_153505_Bybko.Services.GenreService
