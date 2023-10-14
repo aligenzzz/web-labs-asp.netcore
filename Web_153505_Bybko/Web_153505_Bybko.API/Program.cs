@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Web_153505_Bybko.API.Data;
 using Web_153505_Bybko.API.Services.BookService;
@@ -24,6 +25,16 @@ builder.Services.AddMvc()
         options.JsonSerializerOptions.WriteIndented = true;
     });
 
+builder.Services.AddAuthorization();
+builder.Services
+.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+.AddJwtBearer(opt =>
+{
+    opt.Authority = builder.Configuration.GetSection("isUri").Value;
+    opt.TokenValidationParameters.ValidateAudience = false;
+    opt.TokenValidationParameters.ValidTypes = new[] { "at+jwt" };
+});
+
 var app = builder.Build();
 
 // await DbInitializer.SeedData(app);
@@ -37,11 +48,12 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
-
-app.MapControllers();
-
 app.UseStaticFiles();
 app.UseRouting();
+
+app.UseAuthorization();
+app.UseAuthentication();
+
+app.MapControllers();
 
 app.Run();
