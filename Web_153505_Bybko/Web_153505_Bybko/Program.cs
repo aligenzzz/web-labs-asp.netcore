@@ -1,23 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Web_153505_Bybko.Data;
-using Web_153505_Bybko.Services.GenreService;
+﻿using Web_153505_Bybko.Services.GenreService;
 using Web_153505_Bybko.Services.BookService;
-using Microsoft.AspNetCore.Authentication;
 using System.IdentityModel.Tokens.Jwt;
 
 // creation of application
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-// var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-// if (connectionString != null)
-//    builder.Services.AddDbContext<ApplicationDbContext>(options =>
-//        options.UseSqlServer(connectionString));
-// builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
-// builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-//    .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
@@ -40,15 +26,6 @@ builder.Services.AddAuthentication(opt =>
     opt.DefaultChallengeScheme = "oidc";
 })
 .AddCookie("cookie")
-.AddJwtBearer(opt =>
-{
-    opt.Authority =
-            builder.Configuration["InteractiveServiceSettings:AuthorityUrl"];
-    opt.TokenValidationParameters.ValidateAudience = false;
-    opt.TokenValidationParameters.ValidTypes =
-                                    new[] { "at+jwt" };
-    opt.TokenValidationParameters.RoleClaimType = "role";
-})
 .AddOpenIdConnect("oidc", options =>
 {
     options.Authority = builder.Configuration["InteractiveServiceSettings:AuthorityUrl"];

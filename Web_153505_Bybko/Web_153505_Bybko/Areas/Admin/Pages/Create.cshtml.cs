@@ -4,12 +4,10 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Web_153505_Bybko.Domain.Entities;
 using Web_153505_Bybko.Services.GenreService;
 using Web_153505_Bybko.Services.BookService;
-using Microsoft.AspNetCore.Authorization;
 using System.Data;
 
 namespace Web_153505_Bybko.Areas.Admin.Pages
 {
-    // [Authorize(Roles = "admin")]
     public class CreateModel : PageModel
     {
         private readonly IBookService _context;

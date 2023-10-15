@@ -1,13 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Data;
 using Web_153505_Bybko.Domain.Entities;
 using Web_153505_Bybko.Services.BookService;
 
 namespace Web_153505_Bybko.Areas.Admin.Pages
 {
-    // [Authorize(Roles = "admin")]
     public class DeleteModel : PageModel
     {
         private readonly IBookService _context;

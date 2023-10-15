@@ -37,8 +37,8 @@ namespace Web_153505_Bybko.API.Controllers
         }
 
         // GET: api/Books/5
-        [AllowAnonymous]
         [HttpGet("{id:int}")]
+        [Authorize]
         public async Task<ActionResult<Book>> GetBook(int id)
         {
             var response = await _service.GetBookByIdAsync(id);
@@ -53,9 +53,9 @@ namespace Web_153505_Bybko.API.Controllers
         }
 
         // PUT: api/Books/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754     
-        [HttpPut("{id:int}")]
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [Authorize]
+        [HttpPut("{id:int}")]
         public async Task<IActionResult> PutBook(int id, Book book)
         {
             if (id != book.Id)
