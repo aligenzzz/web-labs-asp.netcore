@@ -12,11 +12,20 @@ namespace Web_153505_Bybko.IdentityServer
         public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
         {
             builder.Services.AddRazorPages();
+            builder.Services.AddControllers();
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(opt 
+                =>
+            {
+                opt.SignIn.RequireConfirmedAccount = false;
+                opt.Password.RequireNonAlphanumeric = false;
+                opt.Password.RequireLowercase = false;
+                opt.Password.RequireUppercase = false;
+                opt.Password.RequireDigit = false;
+            })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
@@ -67,6 +76,8 @@ namespace Web_153505_Bybko.IdentityServer
 
             app.MapRazorPages()
                 .RequireAuthorization();
+
+            app.MapControllers();
 
             return app;
         }

@@ -1,4 +1,4 @@
-﻿using Serilog;
+using Serilog;
 using Web_153505_Bybko.IdentityServer;
 
 Log.Logger = new LoggerConfiguration()

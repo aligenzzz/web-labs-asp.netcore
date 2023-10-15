@@ -1,27 +1,46 @@
-﻿
-@await Component.InvokeAsync("Cart")
+﻿﻿@{
+    string? email = string.Empty;
+    if (User.Identity != null && User.Identity.IsAuthenticated)
+        email = User.Claims.ToList()[5].Value;
+}
 
-<div class="dropdown ms-4 nav-color">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-            data-bs-toggle="dropdown" aria-expanded="false">
-        User@gmail.com
-        <img src="https://localhost:7002/Images/profile_icon.png" width="30" alt="User" class="rounded nav-color" />
-    </button>
-    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <li>
-            <span class="dropdown-item-text">
-                <img src="https://localhost:7002/Images/profile_icon.png" width="50" alt="User" class="rounded" />
-                user@gmail.com
-            </span>
-        </li>
-        <li> <hr class="dropdown-divider"> </li>
-        <li>
-            <form method="POST" id="logoutForm" class="form-inline" asp-controller="Identity" asp-action="LogOut">
-                <button id="logout" type="submit" class="nav-link btn-link text-dark"
-                        style="background-color: transparent; border-color: transparent;">
-                    Logout
-                </button>
-            </form>
-        </li>
-    </ul>
-</div>
+@if (User.Identity != null && User.Identity.IsAuthenticated)
+{
+    @await Component.InvokeAsync("Cart")
+
+    <div class="dropdown ms-4 nav-color">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                data-bs-toggle="dropdown" aria-expanded="false">
+            @email
+            <img src="https://localhost:7003/avatar" width="30" alt="User" class="rounded nav-color" />
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <li>
+                <span class="dropdown-item-text">
+                    <img src="https://localhost:7003/avatar" width="50" alt="User" class="rounded" />
+                    @email
+                </span>
+            </li>
+            <li> <hr class="dropdown-divider"> </li>
+            <li>
+                <form method="POST" id="logoutForm" class="form-inline" asp-controller="Identity" asp-action="LogOut">
+                    <button id="logout" type="submit" class="nav-link btn-link text-dark"
+                            style="background-color: transparent; border-color: transparent;"
+                            asp-controller="Identity" asp-action="Logout">
+                        Logout
+                    </button>
+                </form>
+            </li>
+        </ul>
+    </div>
+}
+else
+{
+    <form id="loginForm" class="form-inline ms-auto">
+        <button id="login" type="submit" class="nav-link btn btn-link text-white"
+                asp-action="Login" asp-controller="Identity">
+            Login
+        </button>
+    </form>
+}
+
