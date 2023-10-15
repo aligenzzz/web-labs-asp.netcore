@@ -20,6 +20,7 @@ namespace Web_153505_Bybko.API.Controllers
         }
 
         // GET: api/Books
+        [AllowAnonymous]
         [HttpGet]
         [Route("")]
         [Route("{genre}/pageno{pageno:int}/pagesize{pagesize:int}")]
@@ -36,6 +37,7 @@ namespace Web_153505_Bybko.API.Controllers
         }
 
         // GET: api/Books/5
+        [AllowAnonymous]
         [HttpGet("{id:int}")]
         public async Task<ActionResult<Book>> GetBook(int id)
         {
@@ -51,9 +53,9 @@ namespace Web_153505_Bybko.API.Controllers
         }
 
         // PUT: api/Books/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754     
         [HttpPut("{id:int}")]
-        [Authorize(JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize]
         public async Task<IActionResult> PutBook(int id, Book book)
         {
             if (id != book.Id)
@@ -76,8 +78,8 @@ namespace Web_153505_Bybko.API.Controllers
 
         // POST: api/Books
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPost]
-        [Authorize(JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult<Book>> PostBook(Book book)
         {
             await _service.CreateBookAsync(book);
@@ -86,8 +88,8 @@ namespace Web_153505_Bybko.API.Controllers
         }
 
         // DELETE: api/Books/5
+        [Authorize]
         [HttpDelete("{id:int}")]
-        [Authorize(JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> DeleteBook(int id)
         {
             await _service.DeleteBookAsync(id);
@@ -105,8 +107,8 @@ namespace Web_153505_Bybko.API.Controllers
         }
 
         // POST: api/Books/5
+        [Authorize]
         [HttpPost("{id}")]
-        [Authorize(JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult<ResponseData<string>>> PostImage(int id, IFormFile formFile)
         {
             var response = await _service.SaveImageAsync(id, formFile);

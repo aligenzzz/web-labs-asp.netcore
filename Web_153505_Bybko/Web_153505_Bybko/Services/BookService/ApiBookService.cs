@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using Microsoft.AspNetCore.Authentication;
+using System.Net.Http.Headers;
+using System.Text;
 using System.Text.Json;
 using Web_153505_Bybko.Domain.Entities;
 using Web_153505_Bybko.Domain.Models;
@@ -11,8 +13,10 @@ namespace Web_153505_Bybko.Services.BookService
         private readonly string _pageSize;
         private readonly JsonSerializerOptions _serializerOptions;
         private readonly ILogger<ApiBookService> _logger;
+        private readonly HttpContext _httpContext;
 
-        public ApiBookService(HttpClient httpClient, IConfiguration configuration, ILogger<ApiBookService> logger) 
+        public ApiBookService(HttpClient httpClient, IConfiguration configuration, ILogger<ApiBookService> logger, 
+                              IHttpContextAccessor httpContextAccessor)
         {
             _httpClient = httpClient;
             _pageSize = configuration.GetSection("ItemsPerPage").Value!;
@@ -21,10 +25,14 @@ namespace Web_153505_Bybko.Services.BookService
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             };
             _logger = logger;
+            _httpContext = httpContextAccessor.HttpContext!;
         }
 
         public async Task<ResponseData<ListModel<Book>>> GetBooksListAsync(string? genreName = "All", int pageNo = 1)
         {
+            var token = await _httpContext.GetTokenAsync("access_token");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
+
             var urlString = new StringBuilder($"{_httpClient.BaseAddress!.AbsoluteUri}books/");
 
             if (genreName != "All")
@@ -64,6 +72,9 @@ namespace Web_153505_Bybko.Services.BookService
 
         public async Task<ResponseData<Book>> CreateBookAsync(Book book, IFormFile? formFile)
         {
+            var token = await _httpContext.GetTokenAsync("access_token");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
+
             var urlString = new StringBuilder($"{_httpClient.BaseAddress!.AbsoluteUri}books");
 
             var response = await _httpClient.PostAsJsonAsync(new Uri(urlString.ToString()), book);
@@ -104,6 +115,9 @@ namespace Web_153505_Bybko.Services.BookService
 
         public async Task DeleteBookAsync(int id)
         {
+            var token = await _httpContext.GetTokenAsync("access_token");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
+
             var urlString = new StringBuilder($"{_httpClient.BaseAddress!.AbsoluteUri}books/{id}");
 
             var response = await _httpClient.DeleteAsync(new Uri(urlString.ToString()));
@@ -113,6 +127,9 @@ namespace Web_153505_Bybko.Services.BookService
 
         public async Task<ResponseData<Book>> GetBookByIdAsync(int id)
         {
+            var token = await _httpContext.GetTokenAsync("access_token");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
+
             var urlString = new StringBuilder($"{_httpClient.BaseAddress!.AbsoluteUri}books/{id}");
 
             var response = await _httpClient.GetAsync(new Uri(urlString.ToString()));
@@ -144,6 +161,9 @@ namespace Web_153505_Bybko.Services.BookService
 
         public async Task UpdateBookAsync(int id, Book book, IFormFile? formFile)
         {
+            var token = await _httpContext.GetTokenAsync("access_token");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
+
             var urlString = new StringBuilder($"{_httpClient.BaseAddress!.AbsoluteUri}books/{id}");
 
             var response = await _httpClient.PutAsJsonAsync(new Uri(urlString.ToString()), book);
@@ -163,6 +183,9 @@ namespace Web_153505_Bybko.Services.BookService
 
         private async Task SaveImageAsync(int id, IFormFile image)
         {
+            var token = await _httpContext.GetTokenAsync("access_token");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
+
             var request = new HttpRequestMessage
             {
                 Method = HttpMethod.Post,
