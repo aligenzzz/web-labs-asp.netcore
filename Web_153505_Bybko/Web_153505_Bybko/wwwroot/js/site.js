@@ -1,4 +1,13 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿document.querySelectorAll('.page-link').forEach(function (element) {
+    element.addEventListener('click', function (e) {
+        e.preventDefault();
 
-// Write your JavaScript code.
+        // definding URL for request
+        var url = element.getAttribute('href');
+
+        // sending AJAX-request
+        fetch(url, {
+            method: 'GET'
+        })
+    });
+});

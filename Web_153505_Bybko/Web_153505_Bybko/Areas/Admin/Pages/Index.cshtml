@@ -72,7 +72,11 @@
 
 </table>
 
-<nav aria-label="Page navigation">
+<Pager current-page="@Model.Book.CurrentPage"
+       total-pages="@Model.Book.TotalPages"
+       admin="true"></Pager>
+
+@*<nav aria-label="Page navigation">
     <ul class="pagination">
         <li class="page-item @(Model.Book.CurrentPage == 1 ? "disabled" : "")">
             <a class="page-link" asp-page="./Index" asp-route-pageno="1">
@@ -105,4 +109,4 @@
             </a>
         </li>
     </ul>
-</nav>
+</nav>*@

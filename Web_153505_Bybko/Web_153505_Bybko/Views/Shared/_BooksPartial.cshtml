@@ -1,0 +1,32 @@
+﻿@model ListModel<Book>
+
+<div class="row">
+    @foreach (var book in Model.Items)
+    {
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="d-flex align-items-center justify-content-center" style="padding: 20px;">
+                    <img src="@book.Image" alt="Book's image" class="card-img-top"
+                         style="height: 230px; width: 150px;">
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title">@book.Name</h4>
+                    <p class="card-text">@book.Author</p>
+                    <p class="card-text">
+                        @if (book.Genre != null)
+                            @book.Genre.Name
+
+                        </p>
+                        <small class="card-text">@book.Description</small>
+                        <h5 class="card-text">@book.Price$</h5>
+                        <a href="@Url.Action("Add", "Cart", new { id = book.Id, returnUrl = Context.Request.Path })"
+                           class="btn btn-dark">Add to cart</a>
+                    </div>
+                </div>
+            </div>
+    }
+</div>
+
+<Pager current-page="@Model.CurrentPage"
+       total-pages="@Model.TotalPages"
+       genre="@ViewData["currentGenre"]"></Pager>

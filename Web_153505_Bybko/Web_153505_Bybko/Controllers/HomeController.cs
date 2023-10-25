@@ -4,7 +4,7 @@ using Web_153505_Bybko.Models;
 
 namespace Web_153505_Bybko.Controllers
 {
-    public class Home : Controller
+    public class HomeController : Controller
     {
         public IActionResult Index()
         {
