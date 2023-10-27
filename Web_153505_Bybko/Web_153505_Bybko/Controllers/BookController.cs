@@ -16,6 +16,8 @@ namespace Web_153505_Bybko.Controllers
             _genreService = genreService;
         }
 
+        [Route("Catalog")]
+        [Route("Catalog/{genre}")]
         public async Task<IActionResult> Index(string genre = "All", int pageno = 1)
         {
             ViewBag.genres = _genreService.GetGenresListAsync().Result.Data;

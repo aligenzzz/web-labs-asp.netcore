@@ -1,6 +1,7 @@
-﻿
+﻿@model Cart
+
 <a asp-controller="Cart" asp-action="Index" class="navbar-text ms-auto">
-    0,00$
+    @Model.TotalPrice.ToString("F2")$
     <i class="fa-solid fa-basket-shopping"></i>
-    (0)
+    (@Model.Count)
 </a>

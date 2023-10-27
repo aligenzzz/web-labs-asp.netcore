@@ -19,7 +19,7 @@
                         </p>
                         <small class="card-text">@book.Description</small>
                         <h5 class="card-text">@book.Price$</h5>
-                        <a href="@Url.Action("Add", "Cart", new { id = book.Id, returnUrl = Context.Request.Path })"
+                        <a href="@Url.Action("Add", "Cart", new { id = book.Id, returnUrl = Context.Request.Path + $"?pageno={Model.CurrentPage}" })"
                            class="btn btn-dark">Add to cart</a>
                     </div>
                 </div>
@@ -30,3 +30,4 @@
 <Pager current-page="@Model.CurrentPage"
        total-pages="@Model.TotalPages"
        genre="@ViewData["currentGenre"]"></Pager>
+

@@ -1,6 +1,8 @@
 ﻿using Web_153505_Bybko.Services.GenreService;
 using Web_153505_Bybko.Services.BookService;
 using System.IdentityModel.Tokens.Jwt;
+using Web_153505_Bybko.Domain.Models;
+using Web_153505_Bybko.Models;
 
 // creation of application
 var builder = WebApplication.CreateBuilder(args);
@@ -11,11 +13,16 @@ builder.Services.AddRazorPages();
 builder.Services.AddScoped<IGenreService, ApiGenreService>();
 builder.Services.AddScoped<IBookService, ApiBookService>();
 
+builder.Services.AddScoped<Cart>(sp => SessionCart.GetCart(sp));
+
 var uriData = builder.Configuration["UriData:ApiUri"];
 builder.Services.AddHttpClient<IGenreService, ApiGenreService>(options =>
         options.BaseAddress = new Uri(uriData!));
 builder.Services.AddHttpClient<IBookService, ApiBookService>(options =>
         options.BaseAddress = new Uri(uriData!));
+
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession();
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddAuthorization();
@@ -61,6 +68,8 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseSession();
 
 app.MapRazorPages().RequireAuthorization();
 

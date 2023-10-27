@@ -1,13 +1,8 @@
-﻿document.querySelectorAll('.page-link').forEach(function (element) {
-    element.addEventListener('click', function (e) {
+﻿$(document).ready(function () {
+    $('.page-link').on('click', function (e) {
         e.preventDefault();
+        let url = this.attributes['href'].value;
 
-        // definding URL for request
-        var url = element.getAttribute('href');
-
-        // sending AJAX-request
-        fetch(url, {
-            method: 'GET'
-        })
-    });
-});
+        $('#bookList').load(url);
+    })
+})
