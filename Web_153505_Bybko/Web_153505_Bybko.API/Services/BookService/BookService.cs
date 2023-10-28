@@ -209,7 +209,7 @@ namespace Web_153505_Bybko.API.Services.BookService
                 return new ResponseData<string>
                 {
                     Success = false,
-                    ErrorMessage = "Error: nsuch book doesn't exist"
+                    ErrorMessage = "Error: such book doesn't exist"
                 };
             }
         }

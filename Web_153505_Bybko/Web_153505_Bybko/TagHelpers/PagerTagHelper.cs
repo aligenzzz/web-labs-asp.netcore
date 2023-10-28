@@ -41,7 +41,11 @@ namespace Web_153505_Bybko.TagHelpers
             nav.InnerHtml.AppendHtml(ul);
 
 			output.Content.SetHtmlContent(nav);
-		}
+
+            var scriptElement = new TagBuilder("script");
+            scriptElement.Attributes.Add("src", $"/js/site.js");
+            output.Content.AppendHtml(scriptElement);
+        }
 
         private TagBuilder CreateListItem(int pageno, string innerString = "")
         {

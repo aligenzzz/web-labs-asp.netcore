@@ -25,6 +25,7 @@ namespace Web_153505_Bybko.Controllers
         public async Task<ActionResult> Add(int id, string returnUrl)
         {
             var data = await _bookService.GetBookByIdAsync(id);
+           
             if (data.Success)
             {
                 _cart.AddToCart(data.Data!);
