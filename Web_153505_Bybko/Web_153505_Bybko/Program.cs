@@ -3,6 +3,7 @@ using Web_153505_Bybko.Services.BookService;
 using System.IdentityModel.Tokens.Jwt;
 using Web_153505_Bybko.Domain.Models;
 using Web_153505_Bybko.Models;
+using Web_153505_Bybko.Middleware;
 
 // creation of application
 var builder = WebApplication.CreateBuilder(args);
@@ -63,6 +64,9 @@ else
 // configuring route processing
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+// my middleware
+app.UseMiddleware<RequestLoggingMiddleware>();
 
 app.UseRouting();
 
