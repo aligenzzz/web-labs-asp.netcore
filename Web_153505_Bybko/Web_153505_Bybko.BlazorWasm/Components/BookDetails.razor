@@ -1,0 +1,34 @@
+﻿@if (SelectedBook != null)
+{
+    <dl class="row">
+        <dt class="col-sm-2">Name</dt>
+        <dd class="col-sm-10">@SelectedBook.Name</dd>
+
+        <dt class="col-sm-2">Image</dt>
+        <dd class="col-sm-10">
+            <img src="@SelectedBook.Image" alt="Book's image" />
+        </dd>
+
+        <dt class="col-sm-2">Genre</dt>
+        <dd class="col-sm-10">@SelectedBook.Genre!.Name</dd>
+
+        <dt class="col-sm-2">Author</dt>
+        <dd class="col-sm-10">@SelectedBook.Author</dd>
+
+        <dt class="col-sm-2">Description</dt>
+        <dd class="col-sm-10">@SelectedBook.Description</dd>
+
+        <dt class="col-sm-2">Price</dt>
+        <dd class="col-sm-10">
+            @SelectedBook.Price
+            $
+        </dd>
+    </dl>
+}
+
+@code
+{
+    [Parameter, EditorRequired]
+    public Book? SelectedBook { get; set; }
+
+}

@@ -35,6 +35,15 @@ builder.Services
     opt.TokenValidationParameters.ValidTypes = new[] { "at+jwt" };
 });
 
+string blazorApp = builder.Configuration.GetSection("BlazorApp").Value!;
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.WithOrigins(blazorApp).AllowAnyMethod().AllowAnyHeader();
+    });
+});
+
 var app = builder.Build();
 
 // await DbInitializer.SeedData(app);
@@ -49,6 +58,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
+
+app.UseCors();
 
 app.UseAuthentication();
 app.UseAuthorization();

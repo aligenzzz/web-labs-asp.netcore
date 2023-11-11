@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web_153505_Bybko.API", "Web
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web_153505_Bybko.IdentityServer", "Web_153505_Bybko.IdentityServer\Web_153505_Bybko.IdentityServer.csproj", "{25EBF963-3528-4DB3-9F32-59AF57FE8E16}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web_153505_Bybko.Tests", "Web_153505_Bybko.Tests\Web_153505_Bybko.Tests.csproj", "{6CDF941A-435B-4346-AE62-6FF7116D412D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web_153505_Bybko.Tests", "Web_153505_Bybko.Tests\Web_153505_Bybko.Tests.csproj", "{6CDF941A-435B-4346-AE62-6FF7116D412D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web_153505_Bybko.BlazorWasm", "Web_153505_Bybko.BlazorWasm\Web_153505_Bybko.BlazorWasm.csproj", "{89C7303F-16F5-453D-A84C-6A54BBC03FF9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{6CDF941A-435B-4346-AE62-6FF7116D412D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6CDF941A-435B-4346-AE62-6FF7116D412D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6CDF941A-435B-4346-AE62-6FF7116D412D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89C7303F-16F5-453D-A84C-6A54BBC03FF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89C7303F-16F5-453D-A84C-6A54BBC03FF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89C7303F-16F5-453D-A84C-6A54BBC03FF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89C7303F-16F5-453D-A84C-6A54BBC03FF9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,40 @@
+﻿@inject IDataService DataService
+
+@if (DataService.Success)
+{
+    <div class="col-2 border-2">
+        <ul class="nav">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle"
+                   data-bs-toggle="dropdown"
+                   href="#"
+                   role="button">
+                    @SelectedGenre
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a class="dropdown-item" href="@path">All</a>
+                    </li>
+                    @foreach (var item in DataService.Genres)
+                    {
+                        <li>
+                            <a class="dropdown-item" href="@(path + item.Name)">@item.Name</a>
+                        </li>
+                    }
+                </ul>
+            </li>
+        </ul>
+    </div>
+}
+
+@code 
+{
+    [Parameter, EditorRequired]
+    public string? SelectedGenre { get; set; }
+    private string path = "/catalogue/";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await DataService.GetGenreListAsync();
+    }
+}

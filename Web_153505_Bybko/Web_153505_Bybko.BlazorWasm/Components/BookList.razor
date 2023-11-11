@@ -1,0 +1,49 @@
+﻿@inject IDataService DataService
+@implements IDisposable
+
+<h4>Catalogue</h4>
+
+@if (DataService.Success)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Author</th>
+                <th>Information</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var book in DataService.Books)
+            {
+                int id = book.Id;
+                <tr>
+                    <td>@book.Name</td>
+                    <td>@book.Author</td>
+                    <td>
+                        <button class="nav-link btn-link text-dark" 
+                                @onclick="(async () => await BookDetails.InvokeAsync(id))">
+                            <span class="oi oi-zoom-in" aria-hidden="true"></span>
+                            Details
+                        </button>                   
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code
+{
+    [Parameter, EditorRequired]
+    public EventCallback<int> BookDetails { get; set; }
+
+	protected override void OnInitialized()
+	{
+		DataService.DataLoaded += StateHasChanged;
+	}
+	public void Dispose()
+	{
+		DataService.DataLoaded -= StateHasChanged;
+	}
+}

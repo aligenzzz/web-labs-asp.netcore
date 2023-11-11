@@ -1,0 +1,38 @@
+﻿@page "/catalogue"
+@page "/catalogue/{genre}"
+@attribute [Authorize]
+
+<PageTitle>Catalogue</PageTitle>
+
+@if (DataService != null)
+{
+    <GenreSelector SelectedGenre="@Genre" />
+    <BookList BookDetails="@SelectBook"/>
+    @if (DataService!.TotalPages != 1)
+    {
+        <Pager Genre="@Genre" />
+    }
+    <BookDetails SelectedBook="@SelectedBook"/>
+}
+
+@code 
+{
+    [Inject]
+    public IDataService? DataService { get; set; }
+
+    [Parameter] 
+    public string? Genre { get; set; }
+
+    public Book? SelectedBook { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        Genre = Genre ?? "All";
+        await DataService!.GetBookListAsync(Genre);   
+    }
+
+    public void SelectBook(int id)
+    {
+        SelectedBook = DataService!.Books.First(d => d.Id == id);
+    }
+}
